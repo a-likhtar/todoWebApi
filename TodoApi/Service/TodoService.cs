@@ -41,7 +41,6 @@ namespace TodoApi.Service
             _repository.Update(id, todo);
         }
 
-
         public void Dispose()
         {
             _repository.Dispose();

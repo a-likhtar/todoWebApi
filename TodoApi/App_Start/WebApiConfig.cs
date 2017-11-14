@@ -21,6 +21,9 @@ namespace TodoApi
             );
 
             config.Formatters.Remove(config.Formatters.XmlFormatter);
+
+            var cors = new System.Web.Http.Cors.EnableCorsAttribute("*", "*", "*");
+            config.EnableCors(cors);
         }
     }
 }

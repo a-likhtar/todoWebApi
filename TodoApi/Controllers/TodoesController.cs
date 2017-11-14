@@ -45,34 +45,8 @@ namespace TodoApi.Controllers
         // PUT: api/Todoes/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutTodo(int id, Todo todo)
-        {
-            //if (!ModelState.IsValid)
-            //{
-            //    return BadRequest(ModelState);
-            //}
-
-            //if (id != todo.Id)
-            //{
-            //    return BadRequest();
-            //}
-
-            //db.Entry(todo).State = EntityState.Modified;
-
-            //try
-            //{
-            //    db.SaveChanges();
-            //}
-            //catch (DbUpdateConcurrencyException)
-            //{
-            //    if (!TodoExists(id))
-            //    {
-            //        return NotFound();
-            //    }
-            //    else
-            //    {
-            //        throw;
-            //    }
-            //}
+        {   
+            
             _service.Update(id, todo);
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -82,16 +56,7 @@ namespace TodoApi.Controllers
         [ResponseType(typeof(Todo))]
         public IHttpActionResult PostTodo(Todo todo)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return BadRequest(ModelState);
-            //}
-
-            //db.Todoes.Add(todo);
-            //db.SaveChanges();
-
             _service.Add(todo);
-
             return CreatedAtRoute("DefaultApi", new { id = todo.Id }, todo);
         }
 
@@ -99,17 +64,7 @@ namespace TodoApi.Controllers
         [ResponseType(typeof(Todo))]
         public IHttpActionResult DeleteTodo(int id)
         {
-            //Todo todo = db.Todoes.Find(id);
-            //if (todo == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //db.Todoes.Remove(todo);
-            //db.SaveChanges();
-
             _service.Remove(id);
-
             return Ok(id);
         }
 
