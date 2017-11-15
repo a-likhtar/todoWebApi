@@ -33,10 +33,14 @@ namespace TodoApi.Controllers
         [ResponseType(typeof(Todo))]
         public IHttpActionResult GetTodo(int id)
         {
-            Todo todo = _service.Get(id);
-            if (todo == null)
+            Todo todo;
+            try
             {
-                return NotFound();
+                todo = _service.Get(id);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
 
             return Ok(todo);
@@ -45,10 +49,15 @@ namespace TodoApi.Controllers
         // PUT: api/Todoes/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutTodo(int id, Todo todo)
-        {   
-            
-            _service.Update(id, todo);
-
+        {
+            try
+            {
+                _service.Update(id, todo);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
             return StatusCode(HttpStatusCode.NoContent);
         }
 
@@ -56,7 +65,14 @@ namespace TodoApi.Controllers
         [ResponseType(typeof(Todo))]
         public IHttpActionResult PostTodo(Todo todo)
         {
-            _service.Add(todo);
+            try
+            {
+                _service.Add(todo);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
             return CreatedAtRoute("DefaultApi", new { id = todo.Id }, todo);
         }
 
@@ -64,17 +80,24 @@ namespace TodoApi.Controllers
         [ResponseType(typeof(Todo))]
         public IHttpActionResult DeleteTodo(int id)
         {
-            _service.Remove(id);
+            try
+            {
+                _service.Remove(id);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
             return Ok(id);
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _service.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        _service.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
     }
 }

@@ -23,27 +23,72 @@ namespace TodoApi.Service
 
         public Todo Get(int id)
         {
-            return _repository.Get(id);
+            if (id < 0)
+            {
+                throw new ArgumentException();
+            }
+            var item = _repository.Get(id);
+            if (item == null) throw  new IndexOutOfRangeException();
+            return item;
         }
 
         public void Add(Todo todo)
         {
-            _repository.Add(todo);
+            if (todo == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (todo.Id < 0 || todo.UserId < 0 || todo.Title.Length > 50 || todo.Project.Length > 50)
+            {
+                throw new ArgumentException();
+            }
+            try
+            {
+                _repository.Add(todo);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public void Remove(int id)
         {
-            _repository.Remove(id);
+            if (id < 0)
+            {
+                throw new ArgumentException();
+            }
+
+            try
+            {
+                _repository.Remove(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public void Update(int id, Todo todo)
         {
-            _repository.Update(id, todo);
-        }
+            if (todo == null)
+            {
+                throw new ArgumentNullException();
+            }
 
-        public void Dispose()
-        {
-            _repository.Dispose();
+            if (todo.Id < 0 || todo.UserId < 0 || todo.Title.Length > 50 || todo.Project.Length > 50)
+            {
+                throw new ArgumentException();
+            }
+            try
+            {
+                _repository.Update(id, todo);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

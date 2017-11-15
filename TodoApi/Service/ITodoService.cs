@@ -7,7 +7,7 @@ using TodoApi.Models;
 
 namespace TodoApi.Service
 {
-    public interface ITodoService : IDisposable
+    public interface ITodoService
     {
         IQueryable<Todo> GetAll();
         Todo Get(int id);
