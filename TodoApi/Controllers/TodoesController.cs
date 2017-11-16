@@ -24,7 +24,7 @@ namespace TodoApi.Controllers
         }
 
         // GET: api/Todoes
-        public IQueryable<Todo> GetTodoes()
+        public IEnumerable<Todo> GetTodoes()
         {
             try
             {
@@ -72,15 +72,16 @@ namespace TodoApi.Controllers
         [ResponseType(typeof(Todo))]
         public IHttpActionResult PostTodo(Todo todo)
         {
+            int justAddedId;
             try
             {
-                _service.Add(todo);
+                justAddedId =_service.Add(todo);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            return CreatedAtRoute("DefaultApi", new { id = todo.Id }, todo);
+            return CreatedAtRoute("DefaultApi", new { id = justAddedId }, todo);
         }
 
         // DELETE: api/Todoes/5
@@ -89,13 +90,13 @@ namespace TodoApi.Controllers
         {
             try
             {
-                _service.Remove(id);
+                int justRemovedId = _service.Remove(id);
+                return Ok(justRemovedId);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            return Ok(id);
         }
     }
 }

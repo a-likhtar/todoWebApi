@@ -16,7 +16,7 @@ namespace TodoApi.Repository
             _db = db;
         }
 
-        public IQueryable<Todo> GetAll()
+        public IEnumerable<Todo> GetAll()
         {
             return _db.Todoes;
         }
@@ -26,17 +26,19 @@ namespace TodoApi.Repository
             return _db.Todoes.Find(id);
         }
 
-        public void Add(Todo item)
+        public int Add(Todo item)
         {
             _db.Todoes.Add(item);
             _db.SaveChanges();
+            return item.Id;
         }
 
-        public void Remove(int id)
+        public int Remove(int id)
         {
             Todo todo = _db.Todoes.Find(id);
             _db.Todoes.Remove(todo);
             _db.SaveChanges();
+            return id;
         }
 
         public void Update(int id, Todo item)

@@ -9,9 +9,9 @@ namespace TodoApi.Repository
 {
     public interface ITodoRepository : IDisposable
     {
-        IQueryable<Todo> GetAll();
-        void Add(Todo todo);
-        void Remove(int id);
+        IEnumerable<Todo> GetAll();
+        int Add(Todo todo);
+        int Remove(int id);
         void Update(int id, Todo todo);
         Todo Get(int id);
     }

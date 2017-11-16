@@ -17,7 +17,7 @@ namespace TodoApi.Service
             _repository = repository;
         }
 
-        public IQueryable<Todo> GetAll()
+        public IEnumerable<Todo> GetAll()
         {
             return _repository.GetAll();
         }
@@ -27,13 +27,16 @@ namespace TodoApi.Service
             return _repository.Get(id);
         }
 
-        public void Add(Todo todo)
+        public int Add(Todo todo)
         {
             try
             {
-                if(Utils.Validator.Validate(todo)) { 
-                    _repository.Add(todo);
+                if (Utils.Validator.Validate(todo))
+                {
+                    int id = _repository.Add(todo);
+                    return id;
                 }
+                throw new ArgumentException();
             }
             catch (Exception ex)
             {
@@ -41,11 +44,12 @@ namespace TodoApi.Service
             }
         }
 
-        public void Remove(int id)
+        public int Remove(int id)
         {
             try
             {
-                _repository.Remove(id);
+                int justRemovedId = _repository.Remove(id);
+                return justRemovedId;
             }
             catch (Exception ex)
             {

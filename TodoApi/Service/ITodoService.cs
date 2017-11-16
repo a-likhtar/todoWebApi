@@ -9,10 +9,10 @@ namespace TodoApi.Service
 {
     public interface ITodoService
     {
-        IQueryable<Todo> GetAll();
+        IEnumerable<Todo> GetAll();
         Todo Get(int id);
-        void Add(Todo todo);
-        void Remove(int id);
+        int Add(Todo todo);
+        int Remove(int id);
         void Update(int id, Todo todo);
     }
 }
