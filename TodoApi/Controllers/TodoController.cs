@@ -14,42 +14,31 @@ using TodoApi.Service;
 
 namespace TodoApi.Controllers
 {
-    public class TodoesController : ApiController
+    public class TodoController : ApiController
     {
         private readonly ITodoService _service;
 
-        public TodoesController(ITodoService service)
+        public TodoController(ITodoService service)
         {
             _service = service;
         }
 
         // GET: api/Todoes
-        public IEnumerable<Todo> GetTodoes()
+        public IHttpActionResult GetTodoes()
         {
-            try
+            IEnumerable<Todo> todos = _service.GetAll();
+            if (todos != null)
             {
-                return _service.GetAll();
+                return Ok(todos);
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return NotFound();
         }
 
         // GET: api/Todoes/5
         [ResponseType(typeof(Todo))]
         public IHttpActionResult GetTodo(int id)
         {
-            Todo todo;
-            try
-            {
-                todo = _service.Get(id);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
+            Todo todo = _service.Get(id);
             return Ok(todo);
         }
 
@@ -88,15 +77,9 @@ namespace TodoApi.Controllers
         [ResponseType(typeof(Todo))]
         public IHttpActionResult DeleteTodo(int id)
         {
-            try
-            {
-                int justRemovedId = _service.Remove(id);
-                return Ok(justRemovedId);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            int justRemovedId = _service.Remove(id);
+            return Ok(justRemovedId);
+            
         }
     }
 }
