@@ -26,7 +26,14 @@ namespace TodoApi.Controllers
         // GET: api/Todoes
         public IQueryable<Todo> GetTodoes()
         {
-            return _service.GetAll();
+            try
+            {
+                return _service.GetAll();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         // GET: api/Todoes/5
@@ -90,14 +97,5 @@ namespace TodoApi.Controllers
             }
             return Ok(id);
         }
-
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        _service.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
     }
 }

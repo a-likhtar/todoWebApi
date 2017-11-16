@@ -7,8 +7,12 @@ using TodoApi.Models;
 
 namespace TodoApi.Repository
 {
-    public interface ITodoRepository : IRepository<Todo>, IDisposable
+    public interface ITodoRepository : IDisposable
     {
-
+        IQueryable<Todo> GetAll();
+        void Add(Todo todo);
+        void Remove(int id);
+        void Update(int id, Todo todo);
+        Todo Get(int id);
     }
 }

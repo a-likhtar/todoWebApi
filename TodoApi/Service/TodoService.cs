@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using TodoApi.Models;
@@ -23,29 +24,16 @@ namespace TodoApi.Service
 
         public Todo Get(int id)
         {
-            if (id < 0)
-            {
-                throw new ArgumentException();
-            }
-            var item = _repository.Get(id);
-            if (item == null) throw  new IndexOutOfRangeException();
-            return item;
+            return _repository.Get(id);
         }
 
         public void Add(Todo todo)
         {
-            if (todo == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            if (todo.Id < 0 || todo.UserId < 0 || todo.Title.Length > 50 || todo.Project.Length > 50)
-            {
-                throw new ArgumentException();
-            }
             try
             {
-                _repository.Add(todo);
+                if(Utils.Validator.Validate(todo)) { 
+                    _repository.Add(todo);
+                }
             }
             catch (Exception ex)
             {
@@ -55,11 +43,6 @@ namespace TodoApi.Service
 
         public void Remove(int id)
         {
-            if (id < 0)
-            {
-                throw new ArgumentException();
-            }
-
             try
             {
                 _repository.Remove(id);
@@ -72,18 +55,12 @@ namespace TodoApi.Service
 
         public void Update(int id, Todo todo)
         {
-            if (todo == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            if (todo.Id < 0 || todo.UserId < 0 || todo.Title.Length > 50 || todo.Project.Length > 50)
-            {
-                throw new ArgumentException();
-            }
             try
             {
-                _repository.Update(id, todo);
+                if (Utils.Validator.Validate(todo))
+                {
+                   _repository.Update(id, todo);
+                }
             }
             catch (Exception ex)
             {
