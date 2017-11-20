@@ -104,6 +104,7 @@
     <Compile Include="Repository\TodoRepository.cs" />
     <Compile Include="Service\ITodoService.cs" />
     <Compile Include="Service\TodoService.cs" />
+    <Compile Include="Service\Utils\TodoExceptionAttribute.cs" />
     <Compile Include="Service\Utils\Validator.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

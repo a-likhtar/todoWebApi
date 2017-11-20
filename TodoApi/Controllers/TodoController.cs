@@ -4,6 +4,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using TodoApi.Models;
 using TodoApi.Service;
+using TodoApi.Service.Utils;
 
 namespace TodoApi.Controllers
 {
@@ -26,6 +27,9 @@ namespace TodoApi.Controllers
         }
 
         // GET: api/Todoes/5
+        // Todo: handle only necessary type of exceptions
+        [TodoException(ExceptionType = typeof(Exception),
+            StatusCode = HttpStatusCode.BadRequest, Message = "Error")]
         [ResponseType(typeof(Todo))]
         public IHttpActionResult GetTodo(int id)
         {
@@ -34,37 +38,28 @@ namespace TodoApi.Controllers
         }
 
         // PUT: api/Todoes/5
+        [TodoException(ExceptionType = typeof(Exception),
+            StatusCode = HttpStatusCode.BadRequest, Message = "Error")]
         [ResponseType(typeof(void))]
         public IHttpActionResult PutTodo(int id, Todo todo)
         {
-            try
-            {
-                _service.Update(id, todo);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            _service.Update(id, todo);
             return StatusCode(HttpStatusCode.NoContent);
         }
 
         // POST: api/Todoes
+        [TodoException(ExceptionType = typeof(Exception),
+            StatusCode = HttpStatusCode.BadRequest, Message = "Error")]
         [ResponseType(typeof(Todo))]
         public IHttpActionResult PostTodo(Todo todo)
         {
-            int justAddedId;
-            try
-            {
-                justAddedId = _service.Add(todo);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var justAddedId = _service.Add(todo);
             return CreatedAtRoute("DefaultApi", new {id = justAddedId}, todo);
         }
 
         // DELETE: api/Todoes/5
+        [TodoException(ExceptionType = typeof(Exception),
+            StatusCode = HttpStatusCode.BadRequest, Message = "Error")]
         [ResponseType(typeof(Todo))]
         public IHttpActionResult DeleteTodo(int id)
         {
