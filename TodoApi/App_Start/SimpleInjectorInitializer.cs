@@ -14,19 +14,15 @@ namespace TodoApi.App_Start
 {
     public class SimpleInjectorInitializer
     {
+        public static Container Container { get; set; }
+
         public static void Initialize()
         {
             var container = new Container();
             container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
-
             InitializeContainer(container);
-
-            container.RegisterWebApiControllers(GlobalConfiguration.Configuration);
-
             container.Verify();
-
-            GlobalConfiguration.Configuration.DependencyResolver = 
-                new SimpleInjectorWebApiDependencyResolver(container);
+            Container = container;
         }
 
         private static void InitializeContainer(Container container)

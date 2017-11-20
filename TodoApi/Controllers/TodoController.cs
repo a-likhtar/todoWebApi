@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using TodoApi.Models;
-using TodoApi.Repository;
 using TodoApi.Service;
 
 namespace TodoApi.Controllers
@@ -26,11 +19,9 @@ namespace TodoApi.Controllers
         // GET: api/Todoes
         public IHttpActionResult GetTodoes()
         {
-            IEnumerable<Todo> todos = _service.GetAll();
+            var todos = _service.GetAll();
             if (todos != null)
-            {
                 return Ok(todos);
-            }
             return NotFound();
         }
 
@@ -38,7 +29,7 @@ namespace TodoApi.Controllers
         [ResponseType(typeof(Todo))]
         public IHttpActionResult GetTodo(int id)
         {
-            Todo todo = _service.Get(id);
+            var todo = _service.Get(id);
             return Ok(todo);
         }
 
@@ -64,22 +55,21 @@ namespace TodoApi.Controllers
             int justAddedId;
             try
             {
-                justAddedId =_service.Add(todo);
+                justAddedId = _service.Add(todo);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            return CreatedAtRoute("DefaultApi", new { id = justAddedId }, todo);
+            return CreatedAtRoute("DefaultApi", new {id = justAddedId}, todo);
         }
 
         // DELETE: api/Todoes/5
         [ResponseType(typeof(Todo))]
         public IHttpActionResult DeleteTodo(int id)
         {
-            int justRemovedId = _service.Remove(id);
+            var justRemovedId = _service.Remove(id);
             return Ok(justRemovedId);
-            
         }
     }
 }
